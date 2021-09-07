@@ -1,4 +1,4 @@
-package pl.futurecollars.invoicing.app;
+package pl.futurecollars.invoicing;
 
 class MessageUtils {
 
