@@ -14,6 +14,7 @@ public class InMemoryDatabase implements Database {
     public Invoice save(Invoice invoice) {
         UUID id = UUID.randomUUID();
         invoice.setId(id);
+
         if (database.get(id) != null) {
             return save(invoice);
         }
@@ -28,7 +29,7 @@ public class InMemoryDatabase implements Database {
 
     @Override
     public List<Invoice> getAll() {
-        return new ArrayList<>(database.values);
+        return new ArrayList<>(database.values());
     }
 
     @Override
