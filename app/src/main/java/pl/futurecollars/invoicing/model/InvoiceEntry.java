@@ -2,7 +2,7 @@ package pl.futurecollars.invoicing.model;
 
 import java.math.BigDecimal;
 
-public class InvoiceEntry {
+public class InvoiceEntry<VAT> {
     private String description;
     private BigDecimal price;
     private BigDecimal  vatvalue;

@@ -1,8 +1,8 @@
 package pl.futurecollars.invoicing.db;
-
+import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import pl.futurecollars.invoicing.model.Invoice;
 
@@ -29,18 +29,7 @@ public class InMemoryDatabase implements Database {
 
     @Override
     public List<Invoice> getAll() {
-        return new ArrayList<>(database.values());
-    }
-
-    @Override
-    public Invoice upDate(Invoice updateInvoice) {
-        return null;
-    }
-
-    @Override
-    public Invoice update(Invoice updatedInvoice) {
-        database.put(updatedInvoice.getId(), updatedInvoice);
-        return updatedInvoice;
+        return new ArrayList<Invoice>(database.values());
     }
 
     @Override
@@ -52,5 +41,11 @@ public class InMemoryDatabase implements Database {
         }
         return true;
     }
-}
 
+    @Override
+    public Optional<Invoice> update( Invoice updatedInvoice) {
+        database.put(updatedInvoice.getId(), updatedInvoice);
+        return Optional.empty();
+
+    }
+}
