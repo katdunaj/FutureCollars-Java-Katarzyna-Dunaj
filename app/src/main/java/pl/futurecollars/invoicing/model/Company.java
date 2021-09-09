@@ -1,7 +1,9 @@
 package pl.futurecollars.invoicing.model;
 
 import java.util.UUID;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class Company {
     private UUID id;
     private long taxIdentificationNumber;

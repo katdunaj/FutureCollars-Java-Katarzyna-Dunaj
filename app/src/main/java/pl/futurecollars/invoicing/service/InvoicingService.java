@@ -1,11 +1,11 @@
 package pl.futurecollars.invoicing.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import pl.futurecollars.invoicing.db.Database;
 import pl.futurecollars.invoicing.model.Invoice;
+
 @RequiredArgsConstructor
 class InvoicingService {
     private final Database database;
@@ -21,7 +21,7 @@ class InvoicingService {
     public List<Invoice> getAll(){
         return database.getAll();
     }
-    public Optional<Invoice> update(Invoice updatedInvoice){
+    public Invoice update(Invoice updatedInvoice){
         return database.update(updatedInvoice);
     }
     public boolean delete(UUID id) {
