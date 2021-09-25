@@ -22,7 +22,7 @@ public class InMemoryDatabase implements Database {
     }
 
     @Override
-    public Invoice getById(int id) {
+    public Invoice getById(UUID id) {
         return database.get(id);
     }
 
