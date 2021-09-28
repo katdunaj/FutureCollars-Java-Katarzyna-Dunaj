@@ -3,11 +3,13 @@ package pl.futurecollars.invoicing.service;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import pl.futurecollars.invoicing.db.Database;
 import pl.futurecollars.invoicing.model.Invoice;
 
+@Service
 @RequiredArgsConstructor
-class InvoicingService {
+public class InvoicingService {
     private final Database database;
 
 

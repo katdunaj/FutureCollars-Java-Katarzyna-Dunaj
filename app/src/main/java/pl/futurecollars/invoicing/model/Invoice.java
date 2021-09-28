@@ -15,14 +15,9 @@ public class Invoice {
     private List invoiceEntries;
 
     public Invoice(UUID id, LocalDateTime date, Company from, Company to, List invoiceEntries) {
-        pl.futurecollars.invoicing.model.Company Company1;
         this.id = id;
         this.LocalDateTime = date;
-        Company1 = from;
-        Company1 = to;
-        this.Company = Company1;
+        this.Company = from;
         this.invoiceEntries = invoiceEntries;
     }
-
-
 }
