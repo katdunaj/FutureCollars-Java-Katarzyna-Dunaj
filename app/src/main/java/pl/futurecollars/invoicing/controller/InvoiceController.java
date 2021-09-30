@@ -3,6 +3,7 @@ package pl.futurecollars.invoicing.controller;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,16 +25,14 @@ class InvoiceController {
     private final InvoicingService invoiceService;
 
     @GetMapping
-
-    public List<Invoice> getAll() {
-        return invoiceService.getAll();
+    public  ResponseEntity<List<Invoice>> getAll() {
+        return ResponseEntity.status(HttpStatus.OK).body(invoiceService.getAll());
     }
 
     @PostMapping
-    public Invoice add(@RequestBody Invoice invoice) {
-        return invoiceService.save(invoice);
+    public ResponseEntity<Invoice> add(@RequestBody Invoice invoice) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(invoiceService.save(invoice));
     }
-
 
     @GetMapping
     public ResponseEntity<Invoice> getById(@PathVariable int id) {
@@ -42,13 +41,12 @@ class InvoiceController {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteById(@PathVariable UUID id) {
+    public ResponseEntity<Boolean> deleteById(@PathVariable UUID id) {
         return ResponseEntity.ok(invoiceService.delete(id));
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody Invoice invoice) {
+    public ResponseEntity<Invoice> update(@RequestBody Invoice invoice) {
         return ResponseEntity.ok(invoiceService.update(invoice));
     }
-
 }
