@@ -6,12 +6,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Company {
     private UUID id;
-    private long TaxIdentificationNumber;
+    private long taxidentificationnumber;
     private String address;
 
     public Company(final int id, long TaxIdentificationNumber, String address) {
         this.id = UUID.randomUUID();
-        this.TaxIdentificationNumber = TaxIdentificationNumber;
+        this.taxidentificationnumber = TaxIdentificationNumber;
         this.address = address;
     }
 }
