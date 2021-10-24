@@ -12,12 +12,10 @@ import pl.futurecollars.invoicing.model.Invoice;
 public class InvoicingService {
     private final Database database;
 
-
     public Invoice save (Invoice invoice){
         return database.save(invoice);
-
     }
-    public Invoice getById(int id){
+    public Invoice getById(UUID id){
         return database.getById(id);
     }
     public List<Invoice> getAll(){
