@@ -7,7 +7,7 @@ import pl.futurecollars.invoicing.db.Database;
 import pl.futurecollars.invoicing.model.Invoice;
 
 @RequiredArgsConstructor
-class InvoicingService {
+public class InvoicingService {
     private final Database database;
 
 
