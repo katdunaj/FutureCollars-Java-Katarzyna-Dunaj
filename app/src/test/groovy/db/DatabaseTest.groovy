@@ -1,6 +1,7 @@
 package db
 
 import pl.futurecollars.invoicing.db.Database
+import pl.futurecollars.invoicing.db.FileBasedData
 import pl.futurecollars.invoicing.db.InMemoryDatabase
 import pl.futurecollars.invoicing.model.Company
 import pl.futurecollars.invoicing.model.Invoice
@@ -39,19 +40,22 @@ class DatabaseTest extends Specification {
     }
 
     def "GetAll"() {
-
         setup:
-        Database database = new InMemoryDatabase()
-        Invoice invoice = new Invoice()
+        def invoice = new Invoice(id,date, from, to, Entries)
+        def invoice2 = new Invoice(id,date, from, to, Entries)
+        InMemoryDatabase.save(invoice)
+        InMemoryDatabase.save(invoice2)
+        FileBasedData.save(invoice)
+        FileBasedData.save(invoice2)
 
-        for (int i = 0; i > 10; i++) {
-            database.save(invoice)
-        }
 
         when:
-
+        def resultInMemory = InMemoryDatabase.getAll()
+        def resultInFile = FileBasedData.getAll()
 
         then:
+        resultInMemory.size() == 2
+        resultInFile.size() == 2
 
     }
 
@@ -61,9 +65,12 @@ class DatabaseTest extends Specification {
         Database database = new InMemoryDatabase()
         Invoice invoice = new Invoice()
         when:
+
         database.save(invoice)
+
         then:
         database.getAll().size() == 1
+
         when:
         database.delete(invoice.getId())
 
@@ -72,17 +79,19 @@ class DatabaseTest extends Specification {
     }
 
     def "updated"() {
-
         setup:
         Database database = new InMemoryDatabase()
-        Invoice invoice = new Invoice(Company)
+        database.save(invoice)
+
         when:
-        database.save(Company)
+        resultInMemory = InMemoryDatabase.delete(invoice.getId())
+        resultFileBasedData = FileBasedData.delete(invoice.getId())
+
         then:
-        database.getAll().size() == 1
-        when:
-        database.update(Company.update(Company))
-        then:
-        database.getAll().size() == 0 sprawdzic czy jedno rowna sie drugie
+        resultInMemory
+        resultInFile
+        InMemoryDatabase.getAll().size() == 0
+        InFile.getAll().size() == 0
+
     }
 }

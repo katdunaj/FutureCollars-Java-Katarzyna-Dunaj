@@ -14,7 +14,7 @@ public class Invoice {
     private UUID id;
     private List invoiceEntries;
 
-    public Invoice(UUID id, LocalDateTime date, Company from, Company to, List invoiceEntries) {
+    public Invoice() {
         pl.futurecollars.invoicing.model.Company Company1;
         this.id = id;
         this.LocalDateTime = date;
@@ -25,4 +25,4 @@ public class Invoice {
     }
 
 
-}
+}UUID id, LocalDateTime date, Company from, Company to, List invoiceEntries
