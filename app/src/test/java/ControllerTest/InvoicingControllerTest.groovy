@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvc
+import pl.futurecollars.invoicing.file.JsonService;
 import pl.futurecollars.invoicing.fixtures.InvoiceFixture;
 import pl.futurecollars.invoicing.model.Invoice;
 import spock.lang.Shared;
@@ -24,7 +25,7 @@ class InvoiceControllerTest extends Specification {
     private MockMvc mockMvc
 
     @Autowired
-    private pl.futurecollars.invoicing.file.JsonService<Invoice> jsonService //dlaczego po zaimportowaniu zrobiło się coś takiego
+    private JsonService jsonService
 
     @Shared
     def invoice = InvoiceFixture.invoice(1)
@@ -60,11 +61,5 @@ class InvoiceControllerTest extends Specification {
                 .contentAsString
                 .response
 
-        def invoices = ArrayList.of(invoice)
-
-        then:
-        then:
-        invoices.size() > 0
-        invoices[0] == invoice
     }
 }
