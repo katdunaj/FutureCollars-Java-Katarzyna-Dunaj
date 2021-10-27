@@ -8,7 +8,7 @@ public interface Database {
 
     Invoice save(Invoice invoice);
 
-    Invoice getById(int id);
+    Invoice getById(UUID id);
 
     List<Invoice> getAll();
 

@@ -3,8 +3,11 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
 import pl.futurecollars.invoicing.model.Invoice;
-
+@Primary
+@Component
 public class InMemoryDatabase implements Database {
 
     HashMap<UUID, Invoice> database = new HashMap<UUID, Invoice>();
@@ -22,7 +25,7 @@ public class InMemoryDatabase implements Database {
     }
 
     @Override
-    public Invoice getById(int id) {
+    public Invoice getById(UUID id) {
         return database.get(id);
     }
 
