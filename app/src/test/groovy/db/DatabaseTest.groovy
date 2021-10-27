@@ -84,14 +84,13 @@ class DatabaseTest extends Specification {
         database.save(invoice)
 
         when:
-        resultInMemory = InMemoryDatabase.delete(invoice.getId())
-        resultFileBasedData = FileBasedData.delete(invoice.getId())
+        resultInMemory = InMemoryDatabase.delete(invoice.getId())// zmienić dane i zapisać
+
 
         then:
         resultInMemory
-        resultInFile
-        InMemoryDatabase.getAll().size() == 0
-        InFile.getAll().size() == 0
+        InMemoryDatabase.getAll().size() == 0// sprawdzic czy dane się zmieniły
+
 
     }
 }
