@@ -1,21 +1,29 @@
 package db
 
 import pl.futurecollars.invoicing.db.Database
-import pl.futurecollars.invoicing.db.FileBasedData
 import pl.futurecollars.invoicing.db.InMemoryDatabase
 import pl.futurecollars.invoicing.model.Company
 import pl.futurecollars.invoicing.model.Invoice
+import pl.futurecollars.invoicing.model.InvoiceEntry
 import spock.lang.Specification
+import java.time.LocalDate
 
-import java.awt.List
-import java.time.LocalDateTime
 
 class DatabaseTest extends Specification {
+
+    def InMemoryDatabase = new InMemoryDatabase()
+    def from = new Company("222-333-444", "Ul.Ogrodowa 3, 05-085 Kampinos", "AAA")
+    def to = new Company("221-332-441", "Ul. Kwiatowa 7, 07-358 Leszno", "BBB")
+    def date = new LocalDate(2021, 7, 8)
+    def invoiceEntries = new ArrayList<InvoiceEntry>();
+    def invoice = new Invoice(date, from, to, invoiceEntries)
+
+
     def "Save"() {
 
         setup:
         Database database = new InMemoryDatabase()
-        Invoice invoice = new Invoice(UUID.randomUUID(), LocalDateTime.now(), new Company(), new Company(), new ArrayList<>())
+        Invoice invoice = new Invoice(date, from, to, invoiceEntries)
         when:
         Invoice savedInvoice = database.save(invoice)
 
@@ -41,21 +49,16 @@ class DatabaseTest extends Specification {
 
     def "GetAll"() {
         setup:
-        def invoice = new Invoice(id,date, from, to, Entries)
-        def invoice2 = new Invoice(id,date, from, to, Entries)
+        def invoice = new Invoice(date, from, to, invoiceEntries)
+        def invoice2 = new Invoice(date, from, to, invoiceEntries)
         InMemoryDatabase.save(invoice)
         InMemoryDatabase.save(invoice2)
-        FileBasedData.save(invoice)
-        FileBasedData.save(invoice2)
-
 
         when:
         def resultInMemory = InMemoryDatabase.getAll()
-        def resultInFile = FileBasedData.getAll()
 
         then:
         resultInMemory.size() == 2
-        resultInFile.size() == 2
 
     }
 
@@ -80,16 +83,18 @@ class DatabaseTest extends Specification {
 
     def "updated"() {
         setup:
+        def fromUpdated = new Company("222-333-444", "Ul.Ogrodowa 3, 05-085 Kampinos", "CCC")
+        def invoiceUpdated = new Invoice(date, from, to, invoiceEntries)
         Database database = new InMemoryDatabase()
         database.save(invoice)
+        invoiceUpdated.setId(invoice.getId())
 
         when:
-        resultInMemory = InMemoryDatabase.delete(invoice.getId())// zmienić dane i zapisać
-
+        def resultInMemory = InMemoryDatabase.update(invoiceUpdated)
 
         then:
-        resultInMemory
-        InMemoryDatabase.getAll().size() == 0// sprawdzic czy dane się zmieniły
+        InMemoryDatabase.getById(resultInMemory.getId()) != null
+        InMemoryDatabase.getById(resultInMemory.getId()).getFrom().getName() == "CCC"
 
 
     }

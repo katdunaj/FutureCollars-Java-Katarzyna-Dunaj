@@ -1,7 +1,7 @@
 package pl.futurecollars.invoicing.model;
 
 import java.awt.List;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,20 +9,15 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 public class Invoice {
-    private final LocalDateTime LocalDateTime;
+    private final LocalDate LocalDate;
     private final Company Company;
     private UUID id;
     private List invoiceEntries;
 
-    public Invoice() {
-        pl.futurecollars.invoicing.model.Company Company1;
+    public Invoice(UUID id, LocalDate date, Company from, Company to, List invoiceEntries) {
         this.id = id;
-        this.LocalDateTime = date;
-        Company1 = from;
-        Company1 = to;
-        this.Company = Company1;
+        this.LocalDate = date;
+        this.Company = from;
         this.invoiceEntries = invoiceEntries;
     }
-
-
-}UUID id, LocalDateTime date, Company from, Company to, List invoiceEntries
+}
