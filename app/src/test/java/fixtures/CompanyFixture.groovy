@@ -6,7 +6,7 @@ class CompanyFixture {
 
     static company(int id) {
 
-        new Company("7ce03334-363f-11ec-8d3d-0242ac130003", "111-22-44-333", "Ul. Ogrodowa 3/6, 05-085 Kampinos", "GGG")
+        new Company("582467c0-1fbd-4fb4-8a5b-463bd39e7678", "222-333-444", "Ul.Ogrodowa 3, 05-085 Kampinos", "AAA")
 
     }
 }

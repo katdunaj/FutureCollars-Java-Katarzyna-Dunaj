@@ -1,4 +1,4 @@
-package Fixtures
+package fixtures
 
 import pl.futurecollars.invoicing.model.InvoiceEntry
 import pl.futurecollars.invoicing.model.Vat

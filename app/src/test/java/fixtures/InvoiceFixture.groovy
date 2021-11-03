@@ -1,14 +1,14 @@
-package Fixtures
+package fixtures
 
-import fixtures.CompanyFixture
 import pl.futurecollars.invoicing.model.Invoice
 
-import java.time.LocalDateTime
+import java.time.LocalDate
+
 
 class InvoiceFixture {
 
     static invoice(int id) {
-        new Invoice(LocalDateTime.now()
+        new Invoice(LocalDate.now()
                 , CompanyFixture.company(id)
                 , CompanyFixture.company(id + 1)
                 , List.of(InvoiceEntryFixture.product(id)

@@ -1,5 +1,0 @@
-package Fixtures
-
-enum fixtures {
-
-}
