@@ -12,18 +12,18 @@ import java.time.LocalDate
 class DatabaseTest extends Specification {
 
     def InMemoryDatabase = new InMemoryDatabase()
-    def from = new Company("222-333-444", "Ul.Ogrodowa 3, 05-085 Kampinos", "AAA")
-    def to = new Company("221-332-441", "Ul. Kwiatowa 7, 07-358 Leszno", "BBB")
-    def date = new LocalDate(2021, 7, 8)
+    def from = new Company(UUID.randomUUID(),"Telnet", 12345,"Ul.Ogrodowa 3, 05-085 Kampinos")
+    def to = new Company(UUID.randomUUID(),"NetPlus", 23456,"Ul.Kwiatowa 5, 05-085 Kampinos")
+    def issuerDate =  LocalDate.of(2021, 7, 8)
     def invoiceEntries = new ArrayList<InvoiceEntry>();
-    def invoice = new Invoice(date, from, to, invoiceEntries)
+    def invoice = new Invoice(UUID.randomUUID(), issuerDate, from, to, invoiceEntries)
 
 
     def "Save"() {
 
         setup:
         Database database = new InMemoryDatabase()
-        Invoice invoice = new Invoice(date, from, to, invoiceEntries)
+        Invoice invoice = new Invoice(UUID.randomUUID(),issuerDate, from, to, invoiceEntries)
         when:
         Invoice savedInvoice = database.save(invoice)
 
@@ -36,7 +36,7 @@ class DatabaseTest extends Specification {
 
         setup:
         Database database = new InMemoryDatabase()
-        Invoice invoice = new Invoice()
+        Invoice invoice = new Invoice(UUID.randomUUID(),issuerDate, from, to, invoiceEntries)
         Invoice savedInvoice = database.save(invoice)
 
         when:
@@ -49,8 +49,8 @@ class DatabaseTest extends Specification {
 
     def "GetAll"() {
         setup:
-        def invoice = new Invoice(date, from, to, invoiceEntries)
-        def invoice2 = new Invoice(date, from, to, invoiceEntries)
+        def invoice = new Invoice(UUID.randomUUID(),issuerDate, from, to, invoiceEntries)
+        def invoice2 = new Invoice(UUID.randomUUID(),issuerDate, from, to, invoiceEntries)
         InMemoryDatabase.save(invoice)
         InMemoryDatabase.save(invoice2)
 
@@ -66,7 +66,7 @@ class DatabaseTest extends Specification {
 
         setup:
         Database database = new InMemoryDatabase()
-        Invoice invoice = new Invoice()
+        Invoice invoice = new Invoice(UUID.randomUUID(),issuerDate, from, to, invoiceEntries)
         when:
 
         database.save(invoice)
@@ -83,8 +83,8 @@ class DatabaseTest extends Specification {
 
     def "updated"() {
         setup:
-        def fromUpdated = new Company("222-333-444", "Ul.Ogrodowa 3, 05-085 Kampinos", "CCC")
-        def invoiceUpdated = new Invoice(date, from, to, invoiceEntries)
+        def fromUpdated = new Company(UUID.randomUUID(),"Telnet", 12345,"Ul.Ogrodowa 3, 05-085 Kampinos")
+        def invoiceUpdated = new Invoice(UUID.randomUUID(),issuerDate, from, to, invoiceEntries)
         Database database = new InMemoryDatabase()
         database.save(invoice)
         invoiceUpdated.setId(invoice.getId())
@@ -94,7 +94,7 @@ class DatabaseTest extends Specification {
 
         then:
         InMemoryDatabase.getById(resultInMemory.getId()) != null
-        InMemoryDatabase.getById(resultInMemory.getId()).getFrom().getName() == "CCC"
+        InMemoryDatabase.getById(resultInMemory.getId()).getFrom().getName() == "Telnet"
 
 
     }

@@ -1,17 +1,15 @@
 package pl.futurecollars.invoicing.model;
 
 import java.util.UUID;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-@RequiredArgsConstructor
+@Data
+@AllArgsConstructor
 public class Company {
     private UUID id;
+    private String name;
     private long taxIdentificationNumber;
     private String address;
 
-    public Company(final int id, long taxIdentificationNumber, String address) {
-        this.id = UUID.randomUUID();
-        this.taxIdentificationNumber = taxIdentificationNumber;
-        this.address = address;
-    }
 }
