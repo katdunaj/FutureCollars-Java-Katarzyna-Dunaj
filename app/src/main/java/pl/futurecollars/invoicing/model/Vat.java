@@ -1,6 +1,6 @@
 package pl.futurecollars.invoicing.model;
 
-enum Vat {
+public enum Vat {
 
     VAT_23(0.23f),
     VAT_8(0.08f),

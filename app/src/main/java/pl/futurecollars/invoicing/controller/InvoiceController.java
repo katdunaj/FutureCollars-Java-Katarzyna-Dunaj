@@ -35,7 +35,7 @@ class InvoiceController {
     }
 
     @GetMapping
-    public ResponseEntity<Invoice> getById(@PathVariable int id) {
+    public ResponseEntity<Invoice> getById(@PathVariable UUID id) {
         return ResponseEntity.ok(invoiceService.getById(id));
 
     }

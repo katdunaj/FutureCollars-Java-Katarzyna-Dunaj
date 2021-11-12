@@ -1,23 +1,25 @@
 package DatabaseTest
 
 import pl.futurecollars.invoicing.db.Database
+import pl.futurecollars.invoicing.db.InMemoryDatabase
 import pl.futurecollars.invoicing.model.Company
 import pl.futurecollars.invoicing.model.Invoice
 import pl.futurecollars.invoicing.model.InvoiceEntry
 import spock.lang.Specification
 
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 abstract class DatabaseTest extends Specification {
 
     abstract Database getDatabaseInstance();
 
-    def issuer = new Company("7ce03334-363f-11ec-8d3d-0242ac130003", "111-22-44-333", "Ul. Ogrodowa 3/6, 05-085 Kampinos", "GGG")
-    def receiver = new Company("83ef0c68-363f-11ec-8d3d-0242ac130003", "123-12-24-657", "Ul.Miła 1/23, 00-180 Warszawa", "BBB")
-    def date = new LocalDateTime(2020, 12, 18, 14, 30)
-    def entries = new ArrayList<InvoiceEntry>();
-    def invoice = new Invoice (date, issuer, receiver, entries)
-    Database database
+    def InMemoryDatabase = new InMemoryDatabase()
+    def from = new Company(UUID.randomUUID(),"Telnet", 12345,"Ul.Ogrodowa 3, 05-085 Kampinos")
+    def to = new Company(UUID.randomUUID(),"NetPlus", 23456,"Ul.Kwiatowa 5, 05-085 Kampinos")
+    def issuerDate =  LocalDate.of(2021, 7, 8)
+    def invoiceEntries = new ArrayList<InvoiceEntry>();
+    def invoice = new Invoice(UUID.randomUUID(), issuerDate, from, to, invoiceEntries)
+    Database database;
 
     def setup(){
         database = getDatabaseInstance()
@@ -28,7 +30,7 @@ abstract class DatabaseTest extends Specification {
 
         then:
         database.getById(result.getId()) != null
-        database.getById(result.getId()).getIssuer().getName() == "GGG"
+        database.getById(result.getId()).getFrom().getName() == "Telnet"
     }
     def "should get invoice from by id"() {
         setup:
@@ -39,13 +41,13 @@ abstract class DatabaseTest extends Specification {
 
         then:
         result != null
-        result.getIssuer().getName() == "GGG"
+        result.getFrom().getName() == "Telnet"
     }
 
     def "should get list of all invoice "(){
         setup:
-        def invoice2 = new Invoice(date, issuer, receiver, entries)
-        def invoice3 = new Invoice(date, issuer, receiver, entries)
+        def invoice2 = new Invoice(UUID.randomUUID(), issuerDate, from, to, invoiceEntries)
+        def invoice3 = new Invoice(UUID.randomUUID(), issuerDate, from, to, invoiceEntries)
         database.save(invoice)
         database.save(invoice2)
         database.save(invoice3)
@@ -72,8 +74,8 @@ abstract class DatabaseTest extends Specification {
     def "should update invoice in the database"() {
         setup:
         database.save(invoice)
-        def issuerUpdated = new Company("7ce03334-363f-11ec-8d3d-0242ac130003", "111-22-44-333", "Ul. Ogrodowa 3/6, 05-085 Kampinos", "ZZZ")
-        def invoiceUpdated = new Invoice(date, issuerUpdated, receiver, entries)
+        def issuerUpdated = new Company(UUID.randomUUID(),"Telnet", 12345,"Ul.Ogrodowa 3, 05-085 Kampinos")
+        def invoiceUpdated = new Invoice(UUID.randomUUID(), issuerDate, from, to, invoiceEntries)
         invoiceUpdated.setId(invoice.getId())
 
         when:
@@ -81,7 +83,7 @@ abstract class DatabaseTest extends Specification {
 
         then:
         database.getById(result.getId()) != null
-        database.getById(result.getId())..getIssuer().getName() == "ZZZ"
+        database.getById(result.getId()).getFrom().getName() == "Telnet"
     }
 
     def "should delete not existing UUID"(){
@@ -89,9 +91,9 @@ abstract class DatabaseTest extends Specification {
         def result = database.delete(UUID.randomUUID())
 
         then:
-        result!
-        database.getAll().size() == 0
+        result
 
+        database.getAll().size() == 0
     }
 }
 

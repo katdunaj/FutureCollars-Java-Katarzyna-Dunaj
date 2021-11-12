@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import lombok.RequiredArgsConstructor;
-import org.gradle.internal.impldep.org.apache.commons.codec.Charsets;
+import org.apache.commons.codec.Charsets;
 import org.springframework.stereotype.Service;
 
 @Service

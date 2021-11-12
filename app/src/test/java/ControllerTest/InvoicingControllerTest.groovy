@@ -24,15 +24,21 @@ class InvoiceControllerTest extends Specification {
     private MockMvc mockMvc
 
     @Autowired
-    private JsonService jsonService
+    private JsonService<Invoice> jsonService
+
+    @Autowired
+    private JsonService<Invoice[]> jsonListService
 
     @Shared
     def invoice = InvoiceFixture.invoice(1)
 
+    @Shared
+    def updatedInvoice = InvoiceFixture.invoice(2)
 
-    def "add single invoice"()
+    @Shared
+    UUID id
 
-    {
+    def "add single invoice"() {
         given:
         def invoiceAsJson = jsonService.convertToJson(invoice)
 
@@ -50,9 +56,7 @@ class InvoiceControllerTest extends Specification {
         invoice == jsonService.convertToObject(response, Invoice.class)
     }
 
-    def "should return list of invoices"()
-
-    {
+    def "should return list of invoices"() {
         when:
         def response = mockMvc.perform(get("/invoices"))
                 .andReturn()

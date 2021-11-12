@@ -15,7 +15,7 @@ public class InvoicingService {
         return database.save(invoice);
 
     }
-    public Invoice getById(int id){
+    public Invoice getById(UUID id){
         return database.getById(id);
     }
     public List<Invoice> getAll(){
