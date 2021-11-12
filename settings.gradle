@@ -8,4 +8,4 @@
  */
 
 rootProject.name = 'invocing-system'
-include('app', 'list', 'utilities')
+include('app')
