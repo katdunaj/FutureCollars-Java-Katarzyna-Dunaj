@@ -82,8 +82,6 @@ class DatabaseTest extends Specification {
 
     def "should update invoice in database "() {
         setup:
-        Company updatedFromCompany = new Company(UUID.randomUUID(), "NetPlus", 12345, "Ul.Ogrodowa 3, 05-085 Kampinos")
-        Company updatedToCompany = new Company(UUID.randomUUID(), "NetPlus", 12345, "Ul.Ogrodowa 5, 05-085 Kampinos")
         Invoice updatedInvoice = new Invoice(UUID.randomUUID(), issuerDate, from, to, invoiceEntries)
 
         updatedInvoice.setId(invoice.getId())
