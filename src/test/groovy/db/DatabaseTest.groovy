@@ -11,19 +11,19 @@ import java.time.LocalDate
 
 class DatabaseTest extends Specification {
 
-    def InMemoryDatabase = new InMemoryDatabase()
-    def from = new Company(UUID.randomUUID(),"Telnet", 12345,"Ul.Ogrodowa 3, 05-085 Kampinos")
-    def to = new Company(UUID.randomUUID(),"NetPlus", 23456,"Ul.Kwiatowa 5, 05-085 Kampinos")
-    def issuerDate =  LocalDate.of(2021, 7, 8)
-    def invoiceEntries = new ArrayList<InvoiceEntry>();
+    def inMemoryDatabase = new InMemoryDatabase()
+    def from = new Company(UUID.randomUUID(), "Telnet", 12345, "Ul.Ogrodowa 3, 05-085 Kampinos")
+    def to = new Company(UUID.randomUUID(), "NetPlus", 23456, "Ul.Kwiatowa 5, 05-085 Kampinos")
+    def issuerDate = LocalDate.of(2021, 7, 8)
+    def invoiceEntries = new ArrayList<InvoiceEntry>()
     def invoice = new Invoice(UUID.randomUUID(), issuerDate, from, to, invoiceEntries)
+    def database
 
-
-    def "Save"() {
+    def "should save invoice to the list"() {
 
         setup:
         Database database = new InMemoryDatabase()
-        Invoice invoice = new Invoice(UUID.randomUUID(),issuerDate, from, to, invoiceEntries)
+        Invoice invoice = new Invoice(UUID.randomUUID(), issuerDate, from, to, invoiceEntries)
         when:
         Invoice savedInvoice = database.save(invoice)
 
@@ -32,41 +32,40 @@ class DatabaseTest extends Specification {
 
     }
 
-    def "GetById"() {
+    def "should get invoice from database by Id"() {
 
         setup:
-        Database database = new InMemoryDatabase()
-        Invoice invoice = new Invoice(UUID.randomUUID(),issuerDate, from, to, invoiceEntries)
-        Invoice savedInvoice = database.save(invoice)
+        database.save(invoice)
 
         when:
-        Invoice getInvoice = database.getById(savedInvoice.getId())
+        def result = database.getById(invoice.getId())
 
         then:
-        savedInvoice.getId() == savedInvoice.getId()
+        result != null
+        result.getFrom().getName() == "Telnet"
 
     }
 
-    def "GetAll"() {
+    def "should get list of all invoices from database"() {
         setup:
-        def invoice = new Invoice(UUID.randomUUID(),issuerDate, from, to, invoiceEntries)
-        def invoice2 = new Invoice(UUID.randomUUID(),issuerDate, from, to, invoiceEntries)
-        InMemoryDatabase.save(invoice)
-        InMemoryDatabase.save(invoice2)
+        def invoice = new Invoice(UUID.randomUUID(), issuerDate, from, to, invoiceEntries)
+        def invoice2 = new Invoice(UUID.randomUUID(), issuerDate, from, to, invoiceEntries)
+        inMemoryDatabase.save(invoice)
+        inMemoryDatabase.save(invoice2)
 
         when:
-        def resultInMemory = InMemoryDatabase.getAll()
+        def resultInMemory = inMemoryDatabase.getAll()
 
         then:
         resultInMemory.size() == 2
 
     }
 
-    def "delete"() {
+    def "should delete invoice from database"() {
 
         setup:
         Database database = new InMemoryDatabase()
-        Invoice invoice = new Invoice(UUID.randomUUID(),issuerDate, from, to, invoiceEntries)
+        Invoice invoice = new Invoice(UUID.randomUUID(), issuerDate, from, to, invoiceEntries)
         when:
 
         database.save(invoice)
@@ -81,21 +80,19 @@ class DatabaseTest extends Specification {
         database.getAll().size() == 0
     }
 
-    def "updated"() {
+    def "should update invoice in database "() {
         setup:
-        def fromUpdated = new Company(UUID.randomUUID(),"Telnet", 12345,"Ul.Ogrodowa 3, 05-085 Kampinos")
-        def invoiceUpdated = new Invoice(UUID.randomUUID(),issuerDate, from, to, invoiceEntries)
-        Database database = new InMemoryDatabase()
-        database.save(invoice)
-        invoiceUpdated.setId(invoice.getId())
+        Company updatedFromCompany = new Company(UUID.randomUUID(), "NetPlus", 12345, "Ul.Ogrodowa 3, 05-085 Kampinos")
+        Company updatedToCompany = new Company(UUID.randomUUID(), "NetPlus", 12345, "Ul.Ogrodowa 5, 05-085 Kampinos")
+        Invoice updatedInvoice = new Invoice(UUID.randomUUID(), issuerDate, from, to, invoiceEntries)
+
+        updatedInvoice.setId(invoice.getId())
 
         when:
-        def resultInMemory = InMemoryDatabase.update(invoiceUpdated)
+        inMemoryDatabase.update(updatedInvoice)
 
         then:
-        InMemoryDatabase.getById(resultInMemory.getId()) != null
-        InMemoryDatabase.getById(resultInMemory.getId()).getFrom().getName() == "Telnet"
-
-
+        inMemoryDatabase.database.get(invoice.getId()) == updatedInvoice
     }
+
 }

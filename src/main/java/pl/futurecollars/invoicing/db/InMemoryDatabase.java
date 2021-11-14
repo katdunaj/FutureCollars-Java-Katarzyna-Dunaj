@@ -8,7 +8,7 @@ import pl.futurecollars.invoicing.model.Invoice;
 
 public class InMemoryDatabase implements Database {
 
-    HashMap<UUID, Invoice> database = new HashMap<UUID, Invoice>();
+    public HashMap<UUID, Invoice> database = new HashMap<UUID, Invoice>();
 
     @Override
     public Invoice save(Invoice invoice) {
