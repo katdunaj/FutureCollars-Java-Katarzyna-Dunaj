@@ -4,11 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.IOException;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-public class JsonService {
+public class JsonService<T> {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -17,12 +16,23 @@ public class JsonService {
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
-    public <T> T toObject(String json, Class <T> clazz) throws IOException {
-        return objectMapper.readValue(json.getBytes(), clazz);
+
+    public String convertToJson(T object) {
+        try {
+            return objectMapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
-    public <T> String toJSON (T invoice) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(invoice);
+
+    public T convertToObject(String line, Class<T> t) {
+        try {
+            return objectMapper.readValue(line, t);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
 
     }
 }
-

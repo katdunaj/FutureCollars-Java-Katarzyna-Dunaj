@@ -1,7 +1,6 @@
-package DatabaseTest
+package database
 
 import pl.futurecollars.invoicing.db.Database
-import pl.futurecollars.invoicing.db.InMemoryDatabase
 import pl.futurecollars.invoicing.model.Company
 import pl.futurecollars.invoicing.model.Invoice
 import pl.futurecollars.invoicing.model.InvoiceEntry
@@ -13,13 +12,12 @@ abstract class DatabaseTest extends Specification {
 
     abstract Database getDatabaseInstance();
 
-    def InMemoryDatabase = new InMemoryDatabase()
     def from = new Company(UUID.randomUUID(),"Telnet", 12345,"Ul.Ogrodowa 3, 05-085 Kampinos")
     def to = new Company(UUID.randomUUID(),"NetPlus", 23456,"Ul.Kwiatowa 5, 05-085 Kampinos")
     def issuerDate =  LocalDate.of(2021, 7, 8)
-    def invoiceEntries = new ArrayList<InvoiceEntry>();
+    def invoiceEntries = new ArrayList<InvoiceEntry>()
     def invoice = new Invoice(UUID.randomUUID(), issuerDate, from, to, invoiceEntries)
-    Database database;
+    Database database
 
     def setup(){
         database = getDatabaseInstance()
@@ -74,7 +72,6 @@ abstract class DatabaseTest extends Specification {
     def "should update invoice in the database"() {
         setup:
         database.save(invoice)
-        def issuerUpdated = new Company(UUID.randomUUID(),"Telnet", 12345,"Ul.Ogrodowa 3, 05-085 Kampinos")
         def invoiceUpdated = new Invoice(UUID.randomUUID(), issuerDate, from, to, invoiceEntries)
         invoiceUpdated.setId(invoice.getId())
 
