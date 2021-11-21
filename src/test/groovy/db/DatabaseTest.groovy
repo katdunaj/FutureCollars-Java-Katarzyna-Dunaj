@@ -8,8 +8,9 @@ import pl.futurecollars.invoicing.model.InvoiceEntry
 import spock.lang.Specification
 import java.time.LocalDate
 
+abstract class DatabaseTest extends Specification {
 
-class DatabaseTest extends Specification {
+    abstract Database getDatabaseInstance();
 
     def inMemoryDatabase = new InMemoryDatabase()
     def from = new Company(UUID.randomUUID(), "Telnet", 12345, "Ul.Ogrodowa 3, 05-085 Kampinos")
@@ -17,12 +18,10 @@ class DatabaseTest extends Specification {
     def issuerDate = LocalDate.of(2021, 7, 8)
     def invoiceEntries = new ArrayList<InvoiceEntry>()
     def invoice = new Invoice(UUID.randomUUID(), issuerDate, from, to, invoiceEntries)
-    def database
+    def database = new InMemoryDatabase()
 
     def "should save invoice to the list"() {
-
         setup:
-        Database database = new InMemoryDatabase()
         Invoice invoice = new Invoice(UUID.randomUUID(), issuerDate, from, to, invoiceEntries)
         when:
         Invoice savedInvoice = database.save(invoice)

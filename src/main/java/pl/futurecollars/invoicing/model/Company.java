@@ -13,3 +13,4 @@ public class Company {
     private long taxIdentificationNumber;
     private String address;
 }
+
