@@ -1,3 +1,0 @@
-plugins {
-    id 'pl.futurecollars.invoicing.java-library-conventions'
-}
