@@ -6,14 +6,17 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import pl.futurecollars.invoicing.file.JsonService
+import fixtures.InvoiceFixture
 import pl.futurecollars.invoicing.model.Invoice
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Stepwise
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+
 @Stepwise
 @SpringBootTest
 @AutoConfigureMockMvc
