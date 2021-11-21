@@ -7,7 +7,7 @@ import pl.futurecollars.invoicing.file.JsonService
 import pl.futurecollars.invoicing.model.Invoice
 
 
-class FiledBasedDataTest extends DatabaseTest {
+class FileBasedDataTest extends DatabaseTest {
 
     @Override
     Database getDatabaseInstance() {

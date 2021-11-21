@@ -23,7 +23,6 @@ class InvoiceController {
 
     private final InvoicingService invoiceService;
 
-
     @GetMapping
     public ResponseEntity<List<Invoice>> getAll() {
         return ResponseEntity.status(HttpStatus.OK).body(invoiceService.getAll());

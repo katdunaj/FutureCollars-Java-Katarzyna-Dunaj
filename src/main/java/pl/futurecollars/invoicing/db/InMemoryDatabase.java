@@ -12,7 +12,7 @@ import pl.futurecollars.invoicing.model.Invoice;
 @Component
 public class InMemoryDatabase implements Database {
 
-    public HashMap<UUID, Invoice> database = new HashMap<UUID, Invoice>();
+    public HashMap<UUID, Invoice> database = new HashMap<>();
 
     @Override
     public Invoice save(Invoice invoice) {
@@ -35,7 +35,7 @@ public class InMemoryDatabase implements Database {
 
     @Override
     public List<Invoice> getAll() {
-        return new ArrayList<Invoice>(database.values());
+        return new ArrayList<>(database.values());
     }
 
     @Override
